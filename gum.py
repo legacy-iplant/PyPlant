@@ -29,6 +29,7 @@ class Data():
 		self.nrow = self.nrow()
 		self.col = self.colomize()
 
+	## This function reads the data in to a dictionary where each key is the row number
 	def data_read(self):
 		data = dict()
 		with open(self.name, 'rb') as csvfile:
@@ -39,6 +40,7 @@ class Data():
 				n += 1
 		return data
 
+	## This function returns the number of columns in self.data
 	def ncol(self):
 		ncol = 0
 		for row in self.data:
@@ -46,12 +48,14 @@ class Data():
 				ncol = len(self.data[row])
 		return ncol
 
+	## This function returns the number of rows in self.data
 	def nrow(self):
 		nrow = 0
 		for row in self.data:
 			nrow += 1
 		return nrow			
 
+	## This function provides a dictionary of lists (vectors in R) for each of the columns
 	def colomize(self):
 		col_dict = dict()
 		to_dict = []
@@ -62,14 +66,18 @@ class Data():
 			to_dict = []
 		return col_dict
 
+	## This function tranposes the data to the proper format
 	def transpose(self):
 		trans_dict = dict()
 		for row in self.data:
-			
+
 
 
 class App:
 
+	""" This builds the GUI app which will eventually be put to an executable 
+	"""
+	
 	def __init__(self, master):
 		c = Canvas(master, width=400, height=400)
 		c.grid()
