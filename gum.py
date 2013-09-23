@@ -92,12 +92,14 @@ class Data:
 		trans_dict = dict()
 		row_num = 0
 		for row in self.data:
-			use_range = range(len(self.data[row])-1)
+			use_range = range(len(self.data[row])-2)
+			replicate = 1
 			for i in use_range:
-				use_range[i] = use_range[i] + 1
+				use_range[i] = use_range[i] + 2
 			for each in use_range:
-				trans_dict[row_num] = [self.data[row][0], self.data[row][each]]
+				trans_dict[row_num] = [replicate, self.data[row][1], self.data[row][each]]
 				row_num += 1
+				replicate += 1
 		return trans_dict
 
 	## This function colomizes the transposed data for export
