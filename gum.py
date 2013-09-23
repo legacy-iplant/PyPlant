@@ -122,6 +122,12 @@ class Data:
 			to_dict = []
 		return col_dict
 
+	## This function exports the dictionary to csv
+	def data_write(self, dict, file):
+		with open(file, 'wb') as csvfile:
+			w = csv.DictWriter(csvfile, dict.keys())
+			w.writeheader()
+			w.writerow(dict)
 
 class App:
 
