@@ -103,25 +103,6 @@ class Data:
 				replicate += 1
 		return trans_dict
 
-	## This function finds the number of columns in the transformed biodata
-	def biodata_ncol(self):
-		ncol = 0
-		for row in self.bio_data:
-			if len(self.bio_data[row]) > ncol:
-				ncol = len(self.bio_data[row])
-		return ncol
-
-	## This function colomizes the transposed data for export
-	def biodata_transpose(self):
-		col_dict = dict()
-		to_dict = []
-		for column in range(self.bio_data_ncol):
-			for row in self.bio_data:
-				to_dict.append(self.bio_data[row][column])
-			col_dict[column] = to_dict
-			to_dict = []
-		return col_dict
-
 	## This function exports the dictionary to csv
 	def data_write(self, dict, file):
 		with open(file, 'wb') as csvfile:
