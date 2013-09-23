@@ -29,9 +29,10 @@ class Data:
 		self.ncol = self.ncol()
 		self.nrow = self.nrow()
 		self.col = self.transpose()
-		self.tran_data = self.biodata_transform()
+		self.bio_data = self.biodata_transform()
 		self.col_ncol = self.col_ncol()
 		self.col_nrow = self.col_nrow()
+#		self.bio_data_col = self.biodata_transpose()
 
 	## This function reads the data in to a dictionary where each key is the row number
 	def data_read(self):
@@ -100,10 +101,17 @@ class Data:
 		return trans_dict
 
 	## This function colomizes the transposed data for export
-#	def tran_colomize(self):
-#		col_dict = dict()
-#		to_dict = []
-#		for column in range()
+"""
+	def biodata_transpose(self):
+		col_dict = dict()
+		to_dict = []
+		for column in range(self.col_ncol):
+			for row in self.bio_data:
+				to_dict.append(self.bio_data[row][column])
+			col_dict[column] = to_dict
+			to_dict = []
+		return col_dict
+"""
 
 class App:
 
