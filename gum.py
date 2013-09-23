@@ -97,7 +97,7 @@ class Data:
 			for i in use_range:
 				use_range[i] = use_range[i] + 2
 			for each in use_range:
-				trans_dict[row_num] = [replicate, self.data[row][1], self.data[row][each]]
+				trans_dict[row_num] = [replicate, self.data[row][0], self.data[row][1], self.data[row][each]]
 				row_num += 1
 				replicate += 1
 		return trans_dict
