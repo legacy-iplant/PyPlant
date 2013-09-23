@@ -13,9 +13,10 @@ from Tkinter import *
 def cls():
 	os.system('cls')
 
-class Data():
+class Data:
 
-	""" This is the standard Data object. It requires the location of the CSV file to be uploaded.
+	""" 
+	This is the standard Data object. It requires the location of the CSV file to be uploaded.
 	self.data provides a dictionary of rows, so that self.data[0] provides the first row of the data.
 	This could be used to extract the names for example. self.name provides the file location. 
 	self.col provides a dictionary of columns, so that self.col[0] provides the first column of the
@@ -28,6 +29,7 @@ class Data():
 		self.ncol = self.ncol()
 		self.nrow = self.nrow()
 		self.col = self.colomize()
+		self.trandata = self.transpose()
 
 	## This function reads the data in to a dictionary where each key is the row number
 	def data_read(self):
@@ -55,7 +57,8 @@ class Data():
 			nrow += 1
 		return nrow			
 
-	## This function provides a dictionary of lists (vectors in R) for each of the columns
+	## This function provides a dictionary of lists (vectors in R) for each 
+	## of the columns (as opposed to each of the row which is what self.data is)
 	def colomize(self):
 		col_dict = dict()
 		to_dict = []
@@ -69,15 +72,22 @@ class Data():
 	## This function tranposes the data to the proper format
 	def transpose(self):
 		trans_dict = dict()
+		row_num = 0
 		for row in self.data:
-
-
+			use_range = range(len(self.data[row])-1)
+			for i in use_range:
+				use_range[i] = use_range[i] + 1
+			for each in use_range:
+				trans_dict[row_num] = [self.data[row][0], self.data[row][each]]
+				row_num += 1
+		return trans_dict
 
 class App:
 
-	""" This builds the GUI app which will eventually be put to an executable 
+	""" 
+	This builds the GUI app which will eventually be put to an executable. 
 	"""
-	
+
 	def __init__(self, master):
 		c = Canvas(master, width=400, height=400)
 		c.grid()
