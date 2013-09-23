@@ -18,7 +18,7 @@ class Data:
 	""" 
 	This is the standard Data object. It requires the location of the CSV file to be uploaded.
 	self.data provides a dictionary of rows, so that self.data[0] provides the first row of the data.
-	This could be used to extract the names for example. self.name provides the file location. 
+	This could be used to extract the coloumn names for example. self.name provides the file location. 
 	self.col provides a dictionary of columns, so that self.col[0] provides the first column of the
 	data. self.col is essentially the transposed version of self.data.
 	"""
@@ -32,7 +32,8 @@ class Data:
 		self.bio_data = self.biodata_transform()
 		self.col_ncol = self.col_ncol()
 		self.col_nrow = self.col_nrow()
-#		self.bio_data_col = self.biodata_transpose()
+		self.bio_data_ncol = self.biodata_ncol()
+		self.bio_data_col = self.biodata_transpose()
 
 	## This function reads the data in to a dictionary where each key is the row number
 	def data_read(self):
@@ -102,18 +103,25 @@ class Data:
 				replicate += 1
 		return trans_dict
 
+	## This function finds the number of columns in the transformed biodata
+	def biodata_ncol(self):
+		ncol = 0
+		for row in self.bio_data:
+			if len(self.bio_data[row]) > ncol:
+				ncol = len(self.bio_data[row])
+		return ncol
+
 	## This function colomizes the transposed data for export
-"""
 	def biodata_transpose(self):
 		col_dict = dict()
 		to_dict = []
-		for column in range(self.col_ncol):
+		for column in range(self.bio_data_ncol):
 			for row in self.bio_data:
 				to_dict.append(self.bio_data[row][column])
 			col_dict[column] = to_dict
 			to_dict = []
 		return col_dict
-"""
+
 
 class App:
 
