@@ -29,7 +29,9 @@ class Data:
 		self.ncol = self.ncol()
 		self.nrow = self.nrow()
 		self.col = self.colomize()
-		self.trandata = self.transpose()
+		self.tran_data = self.transpose()
+		self.col_ncol = self.col_ncol()
+		self.col_nrow = self.col_nrow()
 
 	## This function reads the data in to a dictionary where each key is the row number
 	def data_read(self):
@@ -54,6 +56,21 @@ class Data:
 	def nrow(self):
 		nrow = 0
 		for row in self.data:
+			nrow += 1
+		return nrow
+
+	## This function returns the number of columns in self.col
+	def col_ncol(self):
+		ncol = 0
+		for row in self.col:
+			if len(self.col[row] > ncol):
+				ncol = len(self.col[row])
+		return ncol
+
+	## The function returns the number of rows in self.col
+	def col_nrow(self):
+		nrow = 0
+		for row in self.col:
 			nrow += 1
 		return nrow			
 
@@ -81,6 +98,12 @@ class Data:
 				trans_dict[row_num] = [self.data[row][0], self.data[row][each]]
 				row_num += 1
 		return trans_dict
+
+	## This function colomizes the transposed data for export
+	def tran_col(self):
+		col_dict = dict()
+		to_dict = []
+		for column in range()
 
 class App:
 
