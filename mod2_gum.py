@@ -26,12 +26,7 @@ class Data:
 	def __init__(self, loc):
 		self.name = loc
 		self.data = self.data_read()
-		self.ncol = self.ncol()
-		self.nrow = self.nrow()
-		self.col = self.transpose()
 		self.bio_data = self.biodata_transform()
-		self.col_ncol = self.col_ncol()
-		self.col_nrow = self.col_nrow()
 
 	## This function reads the data in to a dictionary where each key is the row number
 	def data_read(self):
@@ -42,49 +37,7 @@ class Data:
 			for row in reader:
 				data[n] = row
 				n += 1
-		return data
-
-	## This function returns the number of columns in self.data
-	def ncol(self):
-		ncol = 0
-		for row in self.data:
-			if len(self.data[row]) > ncol:
-				ncol = len(self.data[row])
-		return ncol
-
-	## This function returns the number of rows in self.data
-	def nrow(self):
-		nrow = 0
-		for row in self.data:
-			nrow += 1
-		return nrow
-
-	## This function returns the number of columns in self.col
-	def col_ncol(self):
-		ncol = 0
-		for row in self.col:
-			if len(self.col[row]) > ncol:
-				ncol = len(self.col[row])
-		return ncol
-
-	## The function returns the number of rows in self.col
-	def col_nrow(self):
-		nrow = 0
-		for row in self.col:
-			nrow += 1
-		return nrow			
-
-	## This function provides a dictionary of lists (vectors in R) for each 
-	## of the columns (as opposed to each of the row which is what self.data is)
-	def transpose(self):
-		col_dict = dict()
-		to_dict = []
-		for column in range(self.ncol):
-			for row in self.data:
-				to_dict.append(self.data[row][column])
-			col_dict[column] = to_dict
-			to_dict = []
-		return col_dict
+		return data		
 
 	## This function tranposes the data to the proper format
 	def biodata_transform(self):
