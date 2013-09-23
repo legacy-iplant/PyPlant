@@ -68,17 +68,22 @@ class App:
 	"""
 
 	def __init__(self, master):
-		self.label = Label(master, text='Type full CSV location below \n Example: C:\Users\Dustin\Documents\Github\PyPlant \n')
+		self.label = Label(master, text='Type full CSV location of import file \n Example: C:\Users\Dustin\Documents\Github\PyPlant \n')
 		self.label.pack()
 		self.en = Entry(master)
 		self.en.pack()
+		self.label2 = Label(master, text='Type full CSV location of export file \n')
+		self.label2.pack()
+		self.en2 = Entry(master)
+		self.en2.pack()
 		self.button = Button(master, text='Click here to transform and export as export.csv', command=self.load)
 		self.button.pack()
 
 	def load(self):
 		filename = self.en.get()
+		export = self.en2.get()
 		test = Data(filename)
-		test.data_write(test.bio_data, 'export.csv')
+		test.data_write(test.bio_data, export)
 
 root = Tk()
 root.wm_title('Stapleton Lab Data Cleaner')
