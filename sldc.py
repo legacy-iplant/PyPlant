@@ -68,6 +68,8 @@ class App:
 	"""
 
 	def __init__(self, master):
+		self.label0 = Label(master, text='Welcome to the Stapleton Lab Data Cleaner. Please read the readme to make sure \n that your data is the proper format.\n')
+		self.label0.pack()
 		self.label = Label(master, text='Type full CSV location of import file')
 		self.label.pack()
 		self.en = Entry(master)
@@ -76,7 +78,7 @@ class App:
 		self.label2.pack()
 		self.en2 = Entry(master)
 		self.en2.pack()
-		self.button = Button(master, text='Click here to transform and export as export.csv', command=self.load)
+		self.button = Button(master, text='Click here to transform and export', command=self.load)
 		self.button.pack()
 
 	def load(self):
