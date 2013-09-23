@@ -68,11 +68,11 @@ class App:
 	"""
 
 	def __init__(self, master):
-		self.label = Label(master, text='Type full CSV location of import file \n Example: C:\Users\Dustin\Documents\Github\PyPlant \n')
+		self.label = Label(master, text='Type full CSV location of import file')
 		self.label.pack()
 		self.en = Entry(master)
 		self.en.pack()
-		self.label2 = Label(master, text='Type full CSV location of export file \n')
+		self.label2 = Label(master, text='Type full CSV location of export file')
 		self.label2.pack()
 		self.en2 = Entry(master)
 		self.en2.pack()
