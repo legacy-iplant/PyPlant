@@ -20,7 +20,7 @@ class Data:
 	self.data provides a dictionary of rows, so that self.data[0] provides the first row of the data.
 	This could be used to extract the names for example. self.name provides the file location. 
 	self.col provides a dictionary of columns, so that self.col[0] provides the first column of the
-	data.
+	data. self.col is essentially the transposed version of self.data.
 	"""
 
 	def __init__(self, loc):
@@ -28,8 +28,8 @@ class Data:
 		self.data = self.data_read()
 		self.ncol = self.ncol()
 		self.nrow = self.nrow()
-		self.col = self.colomize()
-		self.tran_data = self.transpose()
+		self.col = self.transpose()
+		self.tran_data = self.biodata_transform()
 		self.col_ncol = self.col_ncol()
 		self.col_nrow = self.col_nrow()
 
@@ -63,7 +63,7 @@ class Data:
 	def col_ncol(self):
 		ncol = 0
 		for row in self.col:
-			if len(self.col[row] > ncol):
+			if len(self.col[row]) > ncol:
 				ncol = len(self.col[row])
 		return ncol
 
@@ -76,7 +76,7 @@ class Data:
 
 	## This function provides a dictionary of lists (vectors in R) for each 
 	## of the columns (as opposed to each of the row which is what self.data is)
-	def colomize(self):
+	def transpose(self):
 		col_dict = dict()
 		to_dict = []
 		for column in range(self.ncol):
@@ -87,7 +87,7 @@ class Data:
 		return col_dict
 
 	## This function tranposes the data to the proper format
-	def transpose(self):
+	def biodata_transform(self):
 		trans_dict = dict()
 		row_num = 0
 		for row in self.data:
@@ -100,10 +100,10 @@ class Data:
 		return trans_dict
 
 	## This function colomizes the transposed data for export
-	def tran_col(self):
-		col_dict = dict()
-		to_dict = []
-		for column in range()
+#	def tran_colomize(self):
+#		col_dict = dict()
+#		to_dict = []
+#		for column in range()
 
 class App:
 
