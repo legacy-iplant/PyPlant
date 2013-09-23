@@ -18,9 +18,6 @@ class Data:
 	""" 
 	This is the standard Data object. It requires the location of the CSV file to be uploaded.
 	self.data provides a dictionary of rows, so that self.data[0] provides the first row of the data.
-	This could be used to extract the coloumn names for example. self.name provides the file location. 
-	self.col provides a dictionary of columns, so that self.col[0] provides the first column of the
-	data. self.col is essentially the transposed version of self.data.
 	"""
 
 	def __init__(self, loc):
