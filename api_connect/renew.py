@@ -18,7 +18,7 @@ userid = args.userid
 token = args.token
 password = args.password
 
-url = "https://foundation.iplantc.org/auth-v1/list"
+url = "https://foundation.iplantc.org/auth-v1/renew"
 req = urllib2.Request(url)
 base64string = base64.encodestring('%s:%s' % (userid, token)).replace('\n', '')
 req.add_header("Authorization", "Basic %s" % base64string)
