@@ -17,11 +17,14 @@ args = parser.parse_args()
 userid = args.userid
 token = args.token
 password = args.password
-
-url = "https://foundation.iplantc.org/auth-v1/list"
+url = "https://foundation.iplantc.org/io-v1/io/list/landersda/analyses"
 req = urllib2.Request(url)
+print "This will be a", req.get_method(), "request."
+
 base64string = base64.encodestring('%s:%s' % (userid, token)).replace('\n', '')
 req.add_header("Authorization", "Basic %s" % base64string)
-print(req.get_method())
-result = urllib2.urlopen(req)
-print(result.read())
+
+opener = urllib2.build_opener()
+results = opener.open(req)
+for item in results:
+	print item
