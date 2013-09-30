@@ -1,3 +1,4 @@
 FAQ and Tutorials Needed
 
 1) How do I find out if the server is down for maintenance or otherwise?
+2) Tutorials for connecting other than curl -- ways to automate such as using Python
