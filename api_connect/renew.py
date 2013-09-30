@@ -1,27 +1,13 @@
-#!/usr/bin/env python
-import argparse
-import getpass
-import urllib
-import urllib2
-import base64
- 
-parser = argparse.ArgumentParser(description='Authentication test using foundation api.')
-parser.add_argument('--U', dest='userid', type=str,
-                   help='Your iPlant Username')
-parser.add_argument('--P', dest='password', type=str,
-					help='Your iPlant password')
-parser.add_argument('--T',dest='token', type=str,
-					help='Your valid iPlant token')
- 
-args = parser.parse_args()
-userid = args.userid
-token = args.token
-password = args.password
+#curl -X GET -sku "landersda:Shadow@3876" https://foundation.iplantc.org/io-v1/io/vaughn/tutorials/wocky.txt
 
-url = "https://foundation.iplantc.org/auth-v1/renew"
-req = urllib2.Request(url)
+import argparse, getpass, urllib, urllib2, base64, simplejson as json
+
+userid = 'landersda'
+token = '24b947fbf00186ac532f136a867ecd07'
+
+req = urllib2.Request('https://foundation.iplantc.org/io-v1/io/vaughn/tutorials/wocky.txt')
 base64string = base64.encodestring('%s:%s' % (userid, token)).replace('\n', '')
 req.add_header("Authorization", "Basic %s" % base64string)
-print(req.get_method())
-result = urllib2.urlopen(req)
-print(result.read())
+
+reader = urllib2.urlopen(req)
+print reader.read()
