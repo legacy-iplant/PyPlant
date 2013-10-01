@@ -1,0 +1,17 @@
+48595e966e3c338106f3bf231bec5c9c
+
+"landersda:48595e966e3c338106f3bf231bec5c9c"
+
+FaST-LMM-1.09u1
+
+blastx-stampede-ncbi-db-2.2.26u3
+
+/shared/uncc-wings/3a_fasta_SRR358565_16k/Rhizosphere_16k.fa
+
+fapi.py -app blastx-stampede-ncbi-db-2.2.26u3 get_app_input
+
+fapi.py -app abyss-lonestar-1.3.4u1 get_app_input
+
+fapi.py -app FaST-LMM-1.09ul get_app_input
+
+curl -X POST -sku "$AUTH" -d "jobName=blastx_training&softwareName=blastx-stampede-ncbi-db-2.2.26u3&archive=1&archivePath=/landersda/analyses/blastx_training&requestedTime=10:45:00&processorCount=16&query=/shared/uncc-wings/3a_fasta_SRR358565_16k/Rhizosphere_16k.fa&evalue=0.001" https://foundation.iplantc.org/apps-v1/job | python -mjson.tool
