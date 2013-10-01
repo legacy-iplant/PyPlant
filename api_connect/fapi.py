@@ -43,9 +43,17 @@ def main():
 		get_apps()
 	if task.lower() == 'get_app_input':
 		get_inputs(app)
+	if task.lower() == 'help':
+		print "LIST_ANALYSES  --  List your analyses"
+		print "LIST_TOKENS  --  List your credentials"  
+		print "SHOW_HOME  --  Shows your home folder"
+		print "GET_JOBS  -- List all your active jobs"
+		print "LIST_APPS  -- List all available installed apps" 
+		print "LIST_APP_INPUT  --  Shows the inputs required to launch an app"
 
 
 def get_json(url):
+	print url
 	req = urllib2.Request(url)
 	print "This is a", req.get_method(), "request."
 
@@ -60,6 +68,7 @@ def get_json(url):
 		print(json.dumps(item, sort_keys=True, indent=4 * ' '))
 
 def get(url):
+	print url
 	req = urllib2.Request(url)
 	print "This is a", req.get_method(), "request."
 
@@ -70,6 +79,7 @@ def get(url):
 	print reader.read()
 
 def get_apps():
+	print 'https://foundation.iplantc.org/apps-v1/apps/list'
 	req = urllib2.Request('https://foundation.iplantc.org/apps-v1/apps/list')
 	print "This is a", req.get_method(), "request."
 
