@@ -1,5 +1,5 @@
 ## Put token here
-token = 'f9fc5647d53a4766f6094440ff571ced'
+token = '48595e966e3c338106f3bf231bec5c9c'
 
 import argparse, getpass, urllib, urllib2, base64, simplejson as json
 
@@ -9,13 +9,15 @@ This is Python code for connecting to the Foundation API.
 
 def main():
 
-	global userid, password, task, data
+	global userid, password, task, data, app
 
 	parser = argparse.ArgumentParser(description='Authentication test using foundation api.')
 	parser.add_argument('-u', dest='userid', type=str,
 	                   help='Your iPlant Username')
 	parser.add_argument('-d', dest='data', type=str,
 						help='Post data')
+	parser.add_argument('-app', dest='app', type=str,
+						help='App name')
 	parser.add_argument(dest='task', type=str,
 						help='The task you wish to complete')
 	 
@@ -23,6 +25,7 @@ def main():
 	userid = 'landersda'
 	task = args.task
 	data = args.data
+	app = args.app
 
 	if task.lower() == 'list_analyses':
 		get_json('https://foundation.iplantc.org/io-v1/io/list/' + userid + '/analyses')
@@ -38,6 +41,9 @@ def main():
 		get('https://foundation.iplantc.org/io-v1/io/vaughn/tutorials/wocky.txt')
 	if task.lower() == 'list_apps':
 		get_apps()
+	if task.lower() == 'get_app_input':
+		get_inputs(app)
+
 
 def get_json(url):
 	req = urllib2.Request(url)
@@ -76,6 +82,22 @@ def get_apps():
 	result = data.get('result')
 	for item in result:
 		print(json.dumps(item['id'], sort_keys=True, indent=4 * ' '))
+
+def get_inputs(app):
+	req = urllib2.Request('https://foundation.iplantc.org/apps-v1/apps/' + app)
+	print 'https://foundation.iplantc.org/apps-v1/apps/' + app
+	print "This is a", req.get_method(), "request."
+
+	base64string = base64.encodestring('%s:%s' % (userid, token)).replace('\n', '')
+	req.add_header("Authorization", "Basic %s" % base64string)
+
+	opener = urllib2.build_opener()
+	results = opener.open(req)
+	data = json.load(results)
+	result = data.get('result')
+	result = result['inputs']
+	for item in result:
+		print(json.dumps(item, sort_keys=True, indent=4 * ' '))		
 
 def post(url, data):
 	post_data = urllib.urlencode(data)
