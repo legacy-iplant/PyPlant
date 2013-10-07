@@ -2,31 +2,21 @@ import requests, time, urllib, getpass
 
 APIHost = 'http://foundation.iplantcollaborative.org'
 usr = 'landersda'
-psw = ''
+psw = 'Shadow@3876'
 
-creds = ('Iplantuser','Iplantuserpass','010101')
-
-def Validate(user,psw):
-	print 'Welcome', user, 'to PyPlant!'
-	print 'Your Credentials are saved are saved as a global variable.'
-	print 'PyPlant will rememember your information until you exit. \n'
-	token = GetToken(user,psw)
-	global creds
-	creds = (user,psw,token)
-
-def GetToken(user=creds[0], psw=creds[1]):
+def GetToken(user, psw):
 	req = requests.post(APIHost + '/auth-v1/', auth=(user,psw))
 	token = req.json()['result']['token']
 	print 'Token is', token
 	return token
 
-def RenewToken(user=creds[0], psw=creds[1], token=creds[2]):
+def RenewToken(user, psw, token):
 	payload = {'token' : token}
 	req = requests.post(APIHost + '/auth-v1/renew', auth=(user,psw), data=payload)
 	if req.json()['status'] == 'success':
 		print 'Token renewed.'
 
-def ListTokens(return_list=False, user=creds[0], psw=creds[1]):
+def ListTokens(user, psw, return_list=False):
 	req = requests.get(APIHost + '/auth-v1/list', auth=(user,psw))
 	if len(req.json()['result']) > 0:
 		print 'Token Credentials for', req.json()['result'][0]['username'], '\n'
@@ -40,24 +30,32 @@ def ListTokens(return_list=False, user=creds[0], psw=creds[1]):
 	else:
 		print 'No active credentials.'
 
-def DeleteToken(user=creds[0], token=creds[2]):
+def DeleteToken(user, token):
 	req = requests.delete(APIHost + '/auth-v1/', auth=(user,token))
 	if req.json()['status'] == 'success':
 		print token, 'deleted.'
 
-def ValidateToken(user=creds[0], token=creds[2]):
+def ValidateToken(user, token):
 	req = requests.get(APIHost + '/auth-v1/', auth=(user,token))
 	if req.json()['status'] == 'success':
 		print 'Token', token, 'validated.'
 	else:
 		print 'Token', token, 'does not exist.'
 
-def ListDir(de_path='', user=creds[0], token=creds[2]):
+def ListDir(user, token, de_path=''):
 	req = requests.get(APIHost + '/io-v1/io/list/' + user + '/' + de_path, auth=(user,token))
+	print req.url
 	for item in req.json()['result']:
 		print item['name']
 
-def UploadFile(user=creds[0], token=creds[2]):
-	payload = 'fileToUpload=test.txt'
-	req = requests.post(APIHost + '/io-v1/io/' + user, auth=(user,token), files=payload)
+def UploadFile(user, token):
+	payload = {'fileToUpload' : '@test.txt', 'fileType' : 'FASTA-0'	}
+	req = requests.post('https://foundation.iplantc.org/io-v1/io/' + user, auth=(user,token), data=payload)
+	print req.url
 	print req.json()
+
+def DeleteFile(user, token, de_path=''):
+	req = requests.delete(APIHost + '/io-v1/io/' + user + '/' + de_path, auth=(user,token))
+	print req.url
+	print req.json()
+
