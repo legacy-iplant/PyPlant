@@ -19,7 +19,7 @@ Put simply, mark retJSON as True if you want the functions to be
 machine readable, and false if you want them to be human readbale.
 """
 
-retJSON = True
+retJSON = False
 
 def WriteFile(obj, file):
 	with open(file, 'r+') as myopenfile:
@@ -55,11 +55,13 @@ def ListTokens(user, psw, return_list=False):
 		print 'Token Credentials for', req.json()['result'][0]['username'], '\n'
 		for row in req.json()['result']:
 			print row['token'], 'expires on', time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(row['expires']))
-		if return_list == True and len(req.json()['result'])>1:
+		if return_list == True and len(req.json()['result']) > 1:
 			token_list = []
 			for row in req.json()['result']:
 				token_list.append(row['token'])
 			return token_list
+		elif return_list == True and len(req.json()['result']) == 1:
+			return req.json()['result'][0]['token']
 	else:
 		print 'No active credentials.'
 
@@ -174,10 +176,11 @@ def MoveFile(user, token, path, new_path):
 	if req.json()['status'] == 'success':
 		print path, 'moved to', new_path
 
-def ListApps(user, token):
+def ListApps(user, token, print_connect=True):
 	global retJSON
 	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
-	print 'Connected to', req.url
+	if print_connect == True:
+		print 'Connected to', req.url
 	if retJSON == True:
 		return req.json()
 	for item in req.json()['result']:
