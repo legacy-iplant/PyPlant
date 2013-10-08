@@ -178,13 +178,15 @@ def MoveFile(user, token, path, new_path):
 
 def ListApps(user, token, print_connect=True):
 	global retJSON
+	item_num = 0
 	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
 	if print_connect == True:
 		print 'Connected to', req.url
 	if retJSON == True:
 		return req.json()
 	for item in req.json()['result']:
-		print item['id']
+		print item_num, item['id']
+		item_num += 1
 
 def ListSharedApps(user, token):
 	global retJSON
