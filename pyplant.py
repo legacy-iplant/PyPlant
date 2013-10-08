@@ -50,11 +50,13 @@ def ValidateToken(user, token):
 def ListDir(user, token, de_path=''):
 	req = requests.get(APIHost + '/io-v1/io/list/' + user + '/' + de_path, auth=(user,token))
 	print 'Connected to', req.url
+	print 'Directory \n'
 	for item in req.json()['result']:
 		print item['name'], '[', item['type'], ']'
 
 def UploadFile(user, token, file, filetype='FASTA-0'):
-	gear = open(file, 'rb').read()
+	with open(file, 'rb') as myfile:
+		gear = myfile.read()
 	payload = {'fileToUpload' : ('test.txt', gear), 'fileType' : 'FASTA-0'}
 	req = requests.post(APIHost + '/io-v1/io/' + user, auth=(user,token), files=payload)
 	print 'Connected to', req.url
@@ -77,4 +79,21 @@ def DeleteFile(user, token, de_path='test.txt'):
 	print 'Connected to', req.url
 	if req.json()['result'] == 'success':
 		print de_path, 'deleted.'
+
+def DownloadFile(user, token, de_path='test.txt', save=False, save_file='try_write.txt'):
+	req = requests.get(APIHost + '/io-v1/io/' + user + '/' + de_path, auth=(user, token))
+	print 'Connected to', req.url
+	if save == True:
+		with open(save_file, 'r+') as sf:
+			sf.write(req.text)
+	else:
+		return req.text
+
+def RenameFile(user, token, de_path='test.txt', new_name='new_name.txt'):
+	payload = {'action' : 'rename', 'newName' : new_name}
+	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + de_path, auth=(user, token), data=payload)
+	print 'Connected to', req.url
+	if req.json()['status'] == 'success':
+		print de_path, 'changed to', new_name 
+
 
