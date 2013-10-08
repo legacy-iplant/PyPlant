@@ -198,7 +198,7 @@ def ListSharedApps(user, token):
 		print item['id']
 
 def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='plink-1.07u1', requestedtime='24:00:00',
-			arguments='--assoc --adjust --allow-no-sex --out simulation1_--assoc'):
+			arguments='--assoc --adjust --allow-no-sex --out' + jobname + '--assoc'):
 	global retJSON
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
 		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 
