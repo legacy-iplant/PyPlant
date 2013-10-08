@@ -1,6 +1,12 @@
 import requests, time, urllib, getpass
 
 APIHost = 'https://foundation.iplantcollaborative.org'
+
+""" 
+Change the username and password to reflect your own if you
+don't want to have to type it out every time.
+"""
+
 usr = 'dalanders'
 psw = 'Shadow@3876'
 
