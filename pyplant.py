@@ -219,3 +219,14 @@ def CheckJobStatus(user, token, jobid):
 	if retJSON == True:
 		return req.json()
 	print str(jobid), 'STATUS:', req.json()['result']['status']
+
+def ListAppInputs(user, token, appnum):
+	global retJSON
+	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
+	inputs = req.json()['result'][appnum]['inputs']
+	if retJSON == True:
+		return inputs
+	print 'Input Type --- Input Required'
+	print '-----------------------------'
+	for item in inputs:
+		print item['id'], '---', item['value']['required']
