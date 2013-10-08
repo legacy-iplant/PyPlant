@@ -29,7 +29,7 @@ def ListTokens(user, psw, return_list=False):
 		print 'Token Credentials for', req.json()['result'][0]['username'], '\n'
 		for row in req.json()['result']:
 			print row['token'], 'expires on', time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(row['expires']))
-		if return_list == True:
+		if return_list == True and len(req.json()['result'])>1:
 			token_list = []
 			for row in req.json()['result']:
 				token_list.append(row['token'])
@@ -108,7 +108,19 @@ def MakeDir(user, token, new_folder='new_folder', path=''):
 	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token), data=payload)
 	print 'Connected to', req.url
 	if req.json()['status'] == 'success':
-		print path + '/' + new_path, 'created.'
+		print path + '/' + new_folder, 'created.'
+
+"""
+MoveFile currently doesn't work.
+"""
+
+def MoveFile(user, token, path, new_path):
+	payload = {'action' : 'move', 'newPath' : '/' + user + '/' + new_path}
+	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token), data=payload)
+	print 'Connected to', req.url
+	print req.json()
+	if req.json()['status'] == 'success':
+		print path, 'moved to', new_path
 
 def ListApps(user, token):
 	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
