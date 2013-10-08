@@ -92,6 +92,8 @@ def DownloadFile(user, token, path='test.txt', save=False, save_file='try_write.
 		with open(save_file, 'r+') as sf:
 			sf.write(req.text)
 	else:
+		if req.json()['status'] == 'success':
+		print path, 'downloaded.'
 		return req.text
 
 def Rename(user, token, path='test.txt', new_name='new_name.txt'):
@@ -120,9 +122,10 @@ def ListSharedApps(user, token):
 	for item in req.json()['result']:
 		print item['id']
 
-def PLINK(user, token):
-	payload = {'jobName' : 'PLINK-out', 'softwareName' : 'plink-1.07u1', 'archivePath' : '/' + user + '/analyses/PLINK', 
-		'requestedTime' : '24:00:00', 'inputPED' : '/' + user + '/simulation1.ped', 'inputMAP' : '/' + user + '/simulation1.map', 
+def PLINK(user, token, jobname='PLINK-out', softwarename='plink-1.07u1', archivepath='/' + user + '/analyses/PLINK', requestedtime='24:00:00'
+			inputPED='/' + user + '/simulation1.ped', inputMAP='/' + user + '/simulation1.map'):
+	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
+		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 
 		'arguments' : '--assoc --adjust --allow-no-sex --out simulation1_--assoc', 'archive' : 'True'}
 	req = requests.post(APIHost + '/apps-v1/job', auth=(user, token), data=payload)
 	print 'Connected to', req.url
