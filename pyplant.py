@@ -4,6 +4,10 @@ APIHost = 'https://foundation.iplantcollaborative.org'
 usr = 'dalanders'
 psw = 'Shadow@3876'
 
+def WriteFile(obj, file):
+	with open(file, 'r+') as myopenfile:
+		myopenfile.write(obj)
+
 def GetToken(user, psw):
 	req = requests.post(APIHost + '/auth-v1/', auth=(user, psw))
 	print 'Connected to', req.url
@@ -47,17 +51,17 @@ def ValidateToken(user, token):
 	else:
 		print 'Token', token, 'does not exist.'
 
-def ListDir(user, token, de_path=''):
-	req = requests.get(APIHost + '/io-v1/io/list/' + user + '/' + de_path, auth=(user, token))
+def ListDir(user, token, path=''):
+	req = requests.get(APIHost + '/io-v1/io/list/' + user + '/' + path, auth=(user, token))
 	print 'Connected to', req.url
 	print 'Directory \n'
 	for item in req.json()['result']:
 		print item['name'], '[', item['type'], ']'
 
-def UploadFile(user, token, file, filetype='FASTA-0'):
+def UploadFile(user, token, file):
 	with open(file, 'rb') as myfile:
 		gear = myfile.read()
-	payload = {'fileToUpload' : ('test.txt', gear), 'fileType' : 'FASTA-0'}
+	payload = {'fileToUpload' : (file, gear)}
 	req = requests.post(APIHost + '/io-v1/io/' + user, auth=(user, token), files=payload)
 	print 'Connected to', req.url
 	print 'File Information \n'
@@ -75,14 +79,14 @@ def UploadFile2(user, token):
 	print 'Connected to', req.url
 	print req.json()
 
-def Delete(user, token, de_path='test.txt'):
-	req = requests.delete(APIHost + '/io-v1/io/' + user + '/' + de_path, auth=(user, token))
+def Delete(user, token, path='test.txt'):
+	req = requests.delete(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token))
 	print 'Connected to', req.url
 	if req.json()['status'] == 'success':
-		print de_path, 'deleted.'
+		print path, 'deleted.'
 
-def DownloadFile(user, token, de_path='test.txt', save=False, save_file='try_write.txt'):
-	req = requests.get(APIHost + '/io-v1/io/' + user + '/' + de_path, auth=(user, token))
+def DownloadFile(user, token, path='test.txt', save=False, save_file='try_write.txt'):
+	req = requests.get(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token))
 	print 'Connected to', req.url
 	if save == True:
 		with open(save_file, 'r+') as sf:
@@ -90,27 +94,42 @@ def DownloadFile(user, token, de_path='test.txt', save=False, save_file='try_wri
 	else:
 		return req.text
 
-def Rename(user, token, de_path='test.txt', new_name='new_name.txt'):
+def Rename(user, token, path='test.txt', new_name='new_name.txt'):
 	payload = {'action' : 'rename', 'newName' : new_name}
-	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + de_path, auth=(user, token), data=payload)
+	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token), data=payload)
 	print 'Connected to', req.url
 	if req.json()['status'] == 'success':
-		print de_path, 'changed to', new_name 
+		print path, 'changed to', new_name 
 
-def MakeDir(user, token, new_path='new_folder', de_path=''):
-	payload = {'action' : 'mkdir', 'dirName' : new_path}
-	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + de_path, auth=(user, token), data=payload)
+def MakeDir(user, token, new_folder='new_folder', path=''):
+	payload = {'action' : 'mkdir', 'dirName' : new_folder}
+	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token), data=payload)
 	print 'Connected to', req.url
 	if req.json()['status'] == 'success':
-		print de_path + '/' + new_path, 'created.'
+		print path + '/' + new_path, 'created.'
 
 def ListApps(user, token):
 	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
+	print 'Connected to', req.url
 	for item in req.json()['result']:
 		print item['id']
 
 def ListSharedApps(user, token):
 	req = requests.get(APIHost + '/apps-v1/apps/share/list', auth=(user, token))
+	print 'Connected to', req.url
 	for item in req.json()['result']:
 		print item['id']
 
+def PLINK(user, token):
+	payload = {'jobName' : 'PLINK-out', 'softwareName' : 'plink-1.07u1', 'archivePath' : '/' + user + '/analyses/PLINK', 
+		'requestedTime' : '24:00:00', 'inputPED' : '/' + user + '/simulation1.ped', 'inputMAP' : '/' + user + '/simulation1.map', 
+		'arguments' : '--assoc --adjust --allow-no-sex --out simulation1_--assoc', 'archive' : 'True'}
+	req = requests.post(APIHost + '/apps-v1/job', auth=(user, token), data=payload)
+	print 'Connected to', req.url
+	if req.json()['status'] == 'success':
+		print 'Job', req.json()['result']['id'], 'submitted.'
+
+def CheckJobStatus(user, token, jobid):
+	req = requests.get(APIHost + '/apps-v1/job/' + str(jobid), auth=(user, psw))
+	print 'Connected to', req.url
+	print str(jobid), 'STATUS:', req.json()['result']['status']
