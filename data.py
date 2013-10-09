@@ -4,6 +4,9 @@
 from decimal import *
 
 """
+Use this Data class to turn downloaded files from the API and 
+convert them in to a useable dictionary.
+
 This Data object takes the string returned from the iPlant API,
 where all the features of the data are only seperated by only some
 spaces. It provides a dictionary object where each key is the row
