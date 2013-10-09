@@ -1,3 +1,7 @@
+## Author: Dustin A. Landers
+## Designed for the PyPlant project
+
+
 """
 This Data object takes the string returned from the iPlant API,
 where all the features of the data are only seperated by only some
@@ -7,7 +11,7 @@ number and each row number is a list containing that row's data.
 
 class Data:
 
-	def __init__(self, str, header=True):
+	def __init__(self, str):
 		self.data = self.dataize(str)
 
 	def rowize(self, test):
@@ -17,19 +21,32 @@ class Data:
 		for char in test:
 			if char == ' ' and test[num-1] != ' ':
 				row.append(test[start:num])
+				start = num
 			if char != ' ' and test[num-1] == ' ':
+				start = num 
+			if num == len(test)-1:
+				row.append(test[start:num])
 				start = num
 			num += 1
 		return row
+
+	def find_start(self, current_row):
+		num = 0
+		for char in current_row:
+			if char != ' ':
+				return num
+			num += 1
 
 	def dataize(self, test):
 		data = dict()
 		num = 0
 		row_num = 0
-		for point in range(len(test)):
+		for point in range(len(test)+2):
 			current_row = test[num:point]
 			if current_row.endswith('\n') == True:
-				data[row_num] = rowize(current_row)
+				current_row = current_row.strip()
+				print current_row
+				data[row_num] = self.rowize(current_row)
 				num = point
 				row_num += 1
 		return data
