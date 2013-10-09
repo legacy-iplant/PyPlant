@@ -46,9 +46,10 @@ class Data:
 				data[row_num] = self.rowize(current_row)
 				num = point
 				row_num += 1
+		self.nrow = row_num
 		return data
 
-def change_to_str(data, rows=3235):
+def change_to_str(data, rows=data.nrow):
 	for row in range(rows):
 		for cell in range(len(data[row])):
 			data[row][cell] = str(data[row][cell])
