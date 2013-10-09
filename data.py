@@ -15,10 +15,11 @@ number and each row number is a list containing that row's data.
 
 class Data:
 
-	def __init__(self, str):
-		self.data = self.dataize(str)
+	def __init__(self, str, header=True):
+		self.data = self.Dataize(str)
+		self.header = self.data[0]
 
-	def rowize(self, test):
+	def Rowize(self, test):
 		row = []
 		num = 0
 		start = 0
@@ -34,7 +35,7 @@ class Data:
 			num += 1
 		return row
 
-	def dataize(self, test):
+	def Dataize(self, test):
 		data = dict()
 		num = 0
 		row_num = 0
@@ -43,17 +44,25 @@ class Data:
 			if current_row.endswith('\n') == True:
 				current_row = current_row.strip()
 				print current_row
-				data[row_num] = self.rowize(current_row)
+				data[row_num] = self.Rowize(current_row)
 				num = point
 				row_num += 1
-		self.nrow = row_num
+		self.nrow = row_num - 1
 		return data
 
-def change_to_str(data, rows=data.nrow):
+## This function changes unicode to regular strings
+def ChangeToStr(data, rows):
 	for row in range(rows):
 		for cell in range(len(data[row])):
 			data[row][cell] = str(data[row][cell])
 	return data
+
+## This function exports the dictionary to csv
+def DataWriteCSV(dict, file):
+	with open(file, 'wb') as csvfile:
+		writer = csv.writer(csvfile)
+		for row in dict:
+			writer.writerow(dict[row])
 
 """
 
