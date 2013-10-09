@@ -44,6 +44,8 @@ def RenewToken(user, psw, token):
 		return req.json()
 	if req.json()['status'] == 'success':
 		print 'Token renewed.'
+	else:
+		print req.json()['message']
 
 def ListTokens(user, psw, return_list=False):
 	global retJSON
@@ -74,7 +76,7 @@ def DeleteToken(user, token):
 	if req.json()['status'] == 'success':
 		print token, 'deleted.'
 	else:
-		print 'Error'
+		print req.json()['message']
 
 def ValidateToken(user, token):
 	global retJSON
@@ -132,6 +134,8 @@ def Delete(user, token, path='test.txt'):
 		return req.json()
 	if req.json()['status'] == 'success':
 		print path, 'deleted.'
+	else:
+		print req.json()['message']
 
 def DownloadFile(user, token, path='test.txt'):
 	global retJSON
@@ -150,6 +154,8 @@ def Rename(user, token, path='test.txt', new_name='new_name.txt'):
 		return req.json()
 	if req.json()['status'] == 'success':
 		print path, 'changed to', new_name 
+	else:
+		print req.json()['message']
 
 def MakeDir(user, token, new_folder='new_folder', path=''):
 	global retJSON
@@ -160,6 +166,8 @@ def MakeDir(user, token, new_folder='new_folder', path=''):
 		return req.json()
 	if req.json()['status'] == 'success':
 		print path + '/' + new_folder, 'created.'
+	else:
+		print req.json()['message']
 
 """
 MoveFile currently doesn't work.
@@ -175,6 +183,8 @@ def MoveFile(user, token, path, new_path):
 	print req.json()
 	if req.json()['status'] == 'success':
 		print path, 'moved to', new_path
+	else:
+		print req.json()['message']
 
 def ListApps(user, token, print_connect=True):
 	global retJSON
