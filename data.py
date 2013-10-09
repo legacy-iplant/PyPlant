@@ -1,7 +1,7 @@
 ## Author: Dustin A. Landers
 ## Designed for the PyPlant project
 
-from decimal import *
+import csv
 
 """
 Use this Data class to turn downloaded files from the API and 
