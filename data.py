@@ -53,3 +53,11 @@ def change_to_str(data, rows=3235):
 		for cell in range(len(data[row])):
 			data[row][cell] = str(data[row][cell])
 	return data
+
+"""
+
+for row in range(1,3234):
+	for cell in range(2,10):
+		thing.data[row][cell] = float(thing.data[row][cell])
+
+"""
