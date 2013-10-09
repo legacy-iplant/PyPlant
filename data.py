@@ -64,10 +64,8 @@ def DataWriteCSV(dict, file):
 		for row in dict:
 			writer.writerow(dict[row])
 
-"""
-
-for row in range(1,3234):
-	for cell in range(2,10):
-		thing.data[row][cell] = float(thing.data[row][cell])
-
-"""
+## This function changes numerical rows to floats
+def ChangeToFloat(data, nrow):
+	for row in range(1,nrow):
+		for cell in range(2,10):
+			data[row][cell] = float(data[row][cell])
