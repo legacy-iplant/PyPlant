@@ -1,6 +1,7 @@
 ## Author: Dustin A. Landers
 ## Designed for the PyPlant project
 
+from decimal import *
 
 """
 This Data object takes the string returned from the iPlant API,
@@ -25,17 +26,10 @@ class Data:
 			if char != ' ' and test[num-1] == ' ':
 				start = num 
 			if num == len(test)-1:
-				row.append(test[start:num])
+				row.append(test[start:num+1])
 				start = num
 			num += 1
 		return row
-
-	def find_start(self, current_row):
-		num = 0
-		for char in current_row:
-			if char != ' ':
-				return num
-			num += 1
 
 	def dataize(self, test):
 		data = dict()
@@ -50,3 +44,9 @@ class Data:
 				num = point
 				row_num += 1
 		return data
+
+def change_to_str(data, rows=3235):
+	for row in range(rows):
+		for cell in range(len(data[row])):
+			data[row][cell] = str(data[row][cell])
+	return data
