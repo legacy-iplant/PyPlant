@@ -15,8 +15,8 @@ number and each row number is a list containing that row's data.
 
 class Data:
 
-	def __init__(self, str, header=True):
-		self.data = self.Dataize(str)
+	def __init__(self, str):
+		self.data = self.ChangeToStr(self.Dataize(str), self.nrow)
 		self.header = self.data[0]
 
 	def Rowize(self, test):
@@ -43,29 +43,47 @@ class Data:
 			current_row = test[num:point]
 			if current_row.endswith('\n') == True:
 				current_row = current_row.strip()
-				print current_row
+				#print current_row
 				data[row_num] = self.Rowize(current_row)
 				num = point
 				row_num += 1
 		self.nrow = row_num - 1
 		return data
 
-## This function changes unicode to regular strings
-def ChangeToStr(data, rows):
-	for row in range(rows):
-		for cell in range(len(data[row])):
-			data[row][cell] = str(data[row][cell])
-	return data
+	## This function changes unicode to regular strings
+	def ChangeToStr(self, data, rows):
+		for row in range(rows):
+			for cell in range(len(data[row])):
+				data[row][cell] = str(data[row][cell])
+		return data
 
-## This function exports the dictionary to csv
-def DataWriteCSV(dict, file):
-	with open(file, 'wb') as csvfile:
-		writer = csv.writer(csvfile)
-		for row in dict:
-			writer.writerow(dict[row])
+	## This function changes numerical rows to floats
+	def ChangeToFloat(self, float_col_tuple):
+		for row in range(1,self.nrow):
+			for cell in float_col_tuple:
+				self.data[row][cell] = float(self.data[row][cell])
 
-## This function changes numerical rows to floats
-def ChangeToFloat(data, nrow):
-	for row in range(1,nrow):
-		for cell in range(2,10):
-			data[row][cell] = float(data[row][cell])
+	## This function changes numerical rows to floats
+	def ChangeToInt(self, int_col_tuple):
+		for row in range(1,self.nrow):
+			if isinstance(int_col_tuple, tuple):
+				for cell in int_col_tuple:
+					self.data[row][cell] = int(self.data[row][cell])
+			else:
+				self.data[row][int_col_tuple] = int(self.data[row][int_col_tuple])
+
+	def Head(self):
+		if self.nrow > 5:
+			for row in range(5):
+				print self.data[row]
+		else:
+			for row in range(self.nrow):
+				print self.data[row]
+
+	## This function exports the dictionary to csv
+	def WriteCSV(self, file):
+		with open(file, 'wb') as csvfile:
+			writer = csv.writer(csvfile)
+			for row in self.data:
+				writer.writerow(self.data[row])
+

@@ -5,13 +5,11 @@
 Description: Python functions for interfacing with iPlant Collaborative's Foundation API.
 It provides a framework to begin developing Python scripts for interacting with the API 
 layer. At this point, there are no plans to develop a full scale environment, but instead
-provide a set of functions that can be deployed in any user-designed script or program.
-In other words, the goal is to provide some tools to build your own tools, instead of a 
-full-scale environment for interacting with iPlant. 
+provide a set of functions and classes that can be deployed in any user-designed script or program.In other words, the goal is to provide some tools to build your own tools, instead of a full-scale environment for interacting with iPlant. 
 
 ## Project Setup
 
-If you wish to contribute to the master function set, please contact me.
+If you wish to contribute to the master function and class set, please contact me.
 
 Using Python 2.7.5, there is only one dependency which must be installed. It is the
 requests library (docs.python-requests.org/‎). To install it, unzip the tarball, browse
