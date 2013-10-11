@@ -248,10 +248,11 @@ def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='p
 		print req.json()['message']
 
 ## Run a FaSTLMM job
-def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00'):
+def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00', 
+			arguments='-out thisjob'):
 	global retJSON
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
-		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, arguments : '-out thisjob'}
+		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 'arguments' : arguments}
 	req = requests.post(APIHost + '/apps-v1/job', auth=(usr, token), data=payload)
 	print 'Connected to', req.url
 	if retJSON == True:
