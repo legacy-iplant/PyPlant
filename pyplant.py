@@ -21,10 +21,12 @@ machine readable, and false if you want them to be human readbale.
 
 retJSON = False
 
+## This function writes an object as a file exactly how it is
 def WriteFile(obj, file):
 	with open(file, 'r+') as myopenfile:
 		myopenfile.write(obj)
 
+## This function retrieves a token
 def GetToken(user, psw):
 	global retJSON
 	req = requests.post(APIHost + '/auth-v1/', auth=(user, psw))
@@ -35,6 +37,8 @@ def GetToken(user, psw):
 	print 'Token is', token
 	return token
 
+## This function renews a token for 2 more hours, it also
+## requires a psw and the token
 def RenewToken(user, psw, token):
 	global retJSON
 	payload = {'token' : token}
@@ -47,6 +51,8 @@ def RenewToken(user, psw, token):
 	else:
 		print req.json()['message']
 
+## This function produces all active credentials. If return_list ==
+## True, then a list of all tokens is returned
 def ListTokens(user, psw, return_list=False):
 	global retJSON
 	req = requests.get(APIHost + '/auth-v1/list', auth=(user, psw))
@@ -67,6 +73,7 @@ def ListTokens(user, psw, return_list=False):
 	else:
 		print 'No active credentials.'
 
+## Deletes a given token
 def DeleteToken(user, token):
 	global retJSON
 	req = requests.delete(APIHost + '/auth-v1/', auth=(user, token))
@@ -78,6 +85,7 @@ def DeleteToken(user, token):
 	else:
 		print req.json()['message']
 
+## Prints whether or not a token currently exists
 def ValidateToken(user, token):
 	global retJSON
 	req = requests.get(APIHost + '/auth-v1/', auth=(user, token))
@@ -89,6 +97,8 @@ def ValidateToken(user, token):
 	else:
 		print 'Token', token, 'does not exist.'
 
+## Lists a directory in the Discovery Environment, [ dir ] if directory,
+## [ file ] if its a file. Path extends beyond '/username/'
 def ListDir(user, token, path=''):
 	global retJSON
 	req = requests.get(APIHost + '/io-v1/io/list/' + user + '/' + path, auth=(user, token))
@@ -99,6 +109,7 @@ def ListDir(user, token, path=''):
 	for item in req.json()['result']:
 		print item['name'], '[', item['type'], ']'
 
+## Uploads a file to the main directory only right now
 def UploadFile(user, token, file):
 	global retJSON
 	with open(file, 'rb') as myfile:
@@ -126,6 +137,8 @@ def UploadFile2(user, token):
 		return req.json()
 	print req.json()
 
+## Deletes a file or folder-- Be careful, you can accidently delete your
+## entire user if you leave path blank!! It would delete '/username'
 def Delete(user, token, path='test.txt'):
 	global retJSON
 	req = requests.delete(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token))
@@ -137,6 +150,12 @@ def Delete(user, token, path='test.txt'):
 	else:
 		print req.json()['message']
 
+## Downloads the file to your Python environment. If you want to write a file to your disk,
+## use the WriteFile function or transfer it to a Data class and write as a CSV like this:
+##
+## myfile = DownloadFile(usr,psw,'myfile_on_DE.txt')
+## mydata = Data(myfile)
+## mydata.WriteCSV('file_in_working_directory.txt') 
 def DownloadFile(user, token, path='test.txt'):
 	global retJSON
 	req = requests.get(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token))
@@ -145,6 +164,7 @@ def DownloadFile(user, token, path='test.txt'):
 		return req.json()
 	return req.text
 
+## Rename files or folders in your DE directories
 def Rename(user, token, path='test.txt', new_name='new_name.txt'):
 	global retJSON
 	payload = {'action' : 'rename', 'newName' : new_name}
@@ -157,6 +177,7 @@ def Rename(user, token, path='test.txt', new_name='new_name.txt'):
 	else:
 		print req.json()['message']
 
+## Make new directories in your DE directories
 def MakeDir(user, token, new_folder='new_folder', path=''):
 	global retJSON
 	payload = {'action' : 'mkdir', 'dirName' : new_folder}
@@ -186,6 +207,7 @@ def MoveFile(user, token, path, new_path):
 	else:
 		print req.json()['message']
 
+## List all available apps on the API, plus their corresponding list number
 def ListApps(user, token, print_connect=True):
 	global retJSON
 	item_num = 0
@@ -198,6 +220,7 @@ def ListApps(user, token, print_connect=True):
 		print item_num, item['id']
 		item_num += 1
 
+## View all apps shared with you
 def ListSharedApps(user, token):
 	global retJSON
 	req = requests.get(APIHost + '/apps-v1/apps/share/list', auth=(user, token))
@@ -207,6 +230,7 @@ def ListSharedApps(user, token):
 	for item in req.json()['result']:
 		print item['id']
 
+## Run a PLINK job
 def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='plink-1.07u1', requestedtime='24:00:00',
 			arguments='--assoc --adjust --allow-no-sex --out thisjob'):
 	global retJSON
@@ -223,6 +247,7 @@ def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='p
 	else:
 		print req.json()['message']
 
+## Run a FaSTLMM job
 def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00'):
 	global retJSON
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
@@ -237,6 +262,7 @@ def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, softwarename='
 	else:
 		print req.json()['message']
 
+## Check the status of a job, string or integers works
 def CheckJobStatus(user, token, jobid):
 	global retJSON
 	req = requests.get(APIHost + '/apps-v1/job/' + str(jobid), auth=(user, psw))
@@ -248,6 +274,7 @@ def CheckJobStatus(user, token, jobid):
 	if result == 'FAILED':
 		print 'MESSAGE:', req.json()['result']['message']
 
+## Shorter named function of the above
 def Status(user, token, jobid):
 	global retJSON
 	req = requests.get(APIHost + '/apps-v1/job/' + str(jobid), auth=(user, psw))
@@ -259,6 +286,8 @@ def Status(user, token, jobid):
 	if result == 'FAILED':
 		print 'MESSAGE:', req.json()['result']['message']
 
+## Using the corresponding list number, view the required and not-required
+## inputs for any given app
 def ListAppInputs(user, token, appnum):
 	global retJSON
 	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
