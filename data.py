@@ -58,19 +58,22 @@ class Data:
 		return data
 
 	## This function changes numerical rows to floats
-	def ChangeToFloat(self, float_col_tuple):
+	def ChangeToFloat(self, float_col):
 		for row in range(1,self.nrow):
-			for cell in float_col_tuple:
-				self.data[row][cell] = float(self.data[row][cell])
+			if isinstance(float_col, tuple):
+				for cell in float_col:	
+					self.data[row][cell] = float(self.data[row][cell])
+			else:
+				self.data[row][float_col] = float(self.data[row][float_col])
 
 	## This function changes numerical rows to floats
-	def ChangeToInt(self, int_col_tuple):
+	def ChangeToInt(self, int_col):
 		for row in range(1,self.nrow):
-			if isinstance(int_col_tuple, tuple):
-				for cell in int_col_tuple:
+			if isinstance(int_col, tuple):
+				for cell in int_col:
 					self.data[row][cell] = int(self.data[row][cell])
 			else:
-				self.data[row][int_col_tuple] = int(self.data[row][int_col_tuple])
+				self.data[row][int_col] = int(self.data[row][int_col])
 
 	def Head(self):
 		if self.nrow > 5:
