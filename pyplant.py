@@ -258,6 +258,7 @@ class Data:
 		self.data = self.ChangeToStr(self.Dataize(str), self.nrow)
 		self.headers = self.data[0]
 		self.ncol = len(self.headers)
+		self.MakeColumnVectors()
 
 	## This function takes a string that has been determined by 
 	## Dataize to be a row, and returns of list of all the individual
@@ -323,6 +324,7 @@ class Data:
 
 	## This function provides extra dictionary references for viewing
 	## the column vectors as a list
+	## Be careful, after doing this WriteCSV will include additional vectors
 	def MakeColumnVectors(self):
 		num = 0
 		for each in self.headers:
@@ -345,6 +347,7 @@ class Data:
 	def WriteCSV(self, file):
 		with open(file, 'wb') as csvfile:
 			writer = csv.writer(csvfile)
-			for row in self.data:
-				writer.writerow(self.data[row])
+			for row in range(self.nrow):
+				if isinstance(row, int):
+					writer.writerow(self.data[row])
 
