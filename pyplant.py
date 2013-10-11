@@ -208,7 +208,7 @@ def ListSharedApps(user, token):
 		print item['id']
 
 def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='plink-1.07u1', requestedtime='24:00:00',
-			arguments='--assoc --adjust --allow-no-sex --out'):
+			arguments='--assoc --adjust --allow-no-sex --out thisjob'):
 	global retJSON
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
 		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 
@@ -219,19 +219,21 @@ def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='p
 		return req.json()
 	if req.json()['status'] == 'success':
 		print 'Job', req.json()['result']['id'], 'submitted.'
+		return req.json()['result']['id']
 	else:
 		print req.json()['message']
 
 def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00'):
 	global retJSON
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
-		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP}
+		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, arguments : '-out thisjob'}
 	req = requests.post(APIHost + '/apps-v1/job', auth=(usr, token), data=payload)
 	print 'Connected to', req.url
 	if retJSON == True:
 		return req.json()
 	if req.json()['status'] == 'success':
 		print 'Job', req.json()['result']['id'], 'submitted.'
+		return req.json()['result']['id']
 	else:
 		print req.json()['message']
 
