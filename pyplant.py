@@ -1,4 +1,4 @@
-import requests, time, urllib, getpass, csv
+import requests, time, csv
 
 APIHost = 'https://foundation.iplantcollaborative.org'
 
@@ -233,6 +233,7 @@ def CheckJobStatus(user, token, jobid):
 def ListAppInputs(user, token, appnum):
 	global retJSON
 	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
+	print 'Connected to', req.url
 	inputs = req.json()['result'][appnum]['inputs']
 	if retJSON == True:
 		return inputs
@@ -255,7 +256,8 @@ class Data:
 
 	def __init__(self, str):
 		self.data = self.ChangeToStr(self.Dataize(str), self.nrow)
-		self.header = self.data[0]
+		self.headers = self.data[0]
+		self.ncol = len(self.headers)
 
 	def Rowize(self, test):
 		row = []
