@@ -231,8 +231,8 @@ def ListSharedApps(user, token):
 		print item['id']
 
 ## Run a PLINK job
-def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='plink-1.07u1', requestedtime='24:00:00',
-			arguments='--assoc --adjust --allow-no-sex --out thisjob'):
+def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, arguments='--assoc --adjust --allow-no-sex --out thisjob',
+			softwarename='plink-1.07u1', requestedtime='24:00:00'):
 	global retJSON
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
 		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 
@@ -248,11 +248,12 @@ def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='p
 		print req.json()['message']
 
 ## Run a FaSTLMM job
-def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00', 
-			arguments='-out thisjob'):
+def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, arguments='--assoc --adjust -out thisjob', 
+			softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00'):
 	global retJSON
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
-		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 'arguments' : arguments}
+		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 'archive' : 'True',
+		'arguments' : arguments}
 	req = requests.post(APIHost + '/apps-v1/job', auth=(usr, token), data=payload)
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -296,6 +297,8 @@ def ListAppInputs(user, token, appnum):
 	inputs = req.json()['result'][appnum]['inputs']
 	if retJSON == True:
 		return inputs
+	print req.json()['result'][appnum]['id']
+	print '-----------------------------'
 	print 'Input Type --- Input Required'
 	print '-----------------------------'
 	for item in inputs:
