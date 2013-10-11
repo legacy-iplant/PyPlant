@@ -208,12 +208,25 @@ def ListSharedApps(user, token):
 		print item['id']
 
 def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, softwarename='plink-1.07u1', requestedtime='24:00:00',
-			arguments='--assoc --adjust --allow-no-sex --out results--assoc'):
+			arguments='--assoc --adjust --allow-no-sex --out'):
 	global retJSON
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
 		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 
 		'arguments' : arguments, 'archive' : 'True'}
 	req = requests.post(APIHost + '/apps-v1/job', auth=(user, token), data=payload)
+	print 'Connected to', req.url
+	if retJSON == True:
+		return req.json()
+	if req.json()['status'] == 'success':
+		print 'Job', req.json()['result']['id'], 'submitted.'
+	else:
+		print req.json()['message']
+
+def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00'):
+	global retJSON
+	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
+		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP}
+	req = requests.post(APIHost + '/apps-v1/job', auth=(usr, token), data=payload)
 	print 'Connected to', req.url
 	if retJSON == True:
 		return req.json()
@@ -228,7 +241,21 @@ def CheckJobStatus(user, token, jobid):
 	print 'Connected to', req.url
 	if retJSON == True:
 		return req.json()
-	print str(jobid), 'STATUS:', req.json()['result']['status']
+	result = req.json()['result']['status']
+	print str(jobid), 'STATUS:', result
+	if result == 'FAILED':
+		print 'MESSAGE:', req.json()['result']['message']
+
+def Status(user, token, jobid):
+	global retJSON
+	req = requests.get(APIHost + '/apps-v1/job/' + str(jobid), auth=(user, psw))
+	print 'Connected to', req.url
+	if retJSON == True:
+		return req.json()
+	result = req.json()['result']['status']
+	print str(jobid), 'STATUS:', result
+	if result == 'FAILED':
+		print 'MESSAGE:', req.json()['result']['message']
 
 def ListAppInputs(user, token, appnum):
 	global retJSON
