@@ -259,6 +259,9 @@ class Data:
 		self.headers = self.data[0]
 		self.ncol = len(self.headers)
 
+	## This function takes a string that has been determined by 
+	## Dataize to be a row, and returns of list of all the individual
+	## words the string (and numbers)
 	def Rowize(self, test):
 		row = []
 		num = 0
@@ -275,6 +278,9 @@ class Data:
 			num += 1
 		return row
 
+	## This fucntion searches for what should be a row, sends it
+	## to Rowize and then brings it back and logs it in the data
+	## dictionary
 	def Dataize(self, test):
 		data = dict()
 		num = 0
@@ -315,6 +321,18 @@ class Data:
 			else:
 				self.data[row][int_col] = int(self.data[row][int_col])
 
+	## This function provides extra dictionary references for viewing
+	## the column vectors as a list
+	def MakeColumnVectors(self):
+		num = 0
+		for each in self.headers:
+			each_list = list()
+			for row in range(1,self.nrow):
+				each_list.append(self.data[row][num])
+			self.data[each] = each_list
+			num += 1
+
+	## Displays the first five rows of the data
 	def Head(self):
 		if self.nrow > 5:
 			for row in range(5):
