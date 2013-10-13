@@ -50,7 +50,7 @@ class Data:
 		self.nrow = row_num - 1
 		return data
 
-	## This function changes unicode to regular strings
+	## This function changes unicode to regular stringse
 	def ChangeToStr(self, data, rows):
 		for row in range(rows):
 			for cell in range(len(data[row])):
