@@ -1,0 +1,14 @@
+## Parameters used to make the simulations
+##			1) Population Structure
+##				--subgroups of the genotype file
+##				-- +/- kinship
+##				Q : Population Structure
+##				K : Kinship
+##			2) Heritability
+##				--noise higher heritability is more noise
+##	Start with 4 datasets with a range of the kinship (yes/no) and heritability (1-6)
+##
+##
+## Also need to look at effect sizes
+##
+## We want to see at what point the effect size produces signal (relative to the heritability)

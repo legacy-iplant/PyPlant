@@ -11,16 +11,13 @@ Put simply, mark retJSON as True if you want the functions to be
 machine readable, and false if you want them to be human readbale.
 """
 
-retJSON = False
-
 ## This function writes an object as a file exactly how it is
 def WriteFile(obj, file):
 	with open(file, 'r+') as myopenfile:
 		myopenfile.write(obj)
 
 ## This function retrieves a token
-def GetToken(user, psw):
-	global retJSON
+def GetToken(user, psw, retJSON=False):
 	req = requests.post(APIHost + '/auth-v1/', auth=(user, psw))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -31,8 +28,7 @@ def GetToken(user, psw):
 
 ## This function renews a token for 2 more hours, it also
 ## requires a psw and the token
-def RenewToken(user, psw, token):
-	global retJSON
+def RenewToken(user, psw, token, retJSON=False):
 	payload = {'token' : token}
 	req = requests.post(APIHost + '/auth-v1/renew', auth=(user, psw), data=payload)
 	print 'Connected to', req.url
@@ -45,8 +41,7 @@ def RenewToken(user, psw, token):
 
 ## This function produces all active credentials. If return_list ==
 ## True, then a list of all tokens is returned
-def ListTokens(user, psw, return_list=False):
-	global retJSON
+def ListTokens(user, psw, return_list=False, retJSON=False):
 	req = requests.get(APIHost + '/auth-v1/list', auth=(user, psw))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -66,8 +61,7 @@ def ListTokens(user, psw, return_list=False):
 		print 'No active credentials.'
 
 ## Deletes a given token
-def DeleteToken(user, token):
-	global retJSON
+def DeleteToken(user, token, retJSON=False):
 	req = requests.delete(APIHost + '/auth-v1/', auth=(user, token))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -78,8 +72,7 @@ def DeleteToken(user, token):
 		print req.json()['message']
 
 ## Prints whether or not a token currently exists
-def ValidateToken(user, token):
-	global retJSON
+def ValidateToken(user, token, retJSON=False):
 	req = requests.get(APIHost + '/auth-v1/', auth=(user, token))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -91,8 +84,7 @@ def ValidateToken(user, token):
 
 ## Lists a directory in the Discovery Environment, [ dir ] if directory,
 ## [ file ] if its a file. Path extends beyond '/username/'
-def ListDir(user, token, path=''):
-	global retJSON
+def ListDir(user, token, path='', retJSON=False):
 	req = requests.get(APIHost + '/io-v1/io/list/' + user + '/' + path, auth=(user, token))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -102,8 +94,7 @@ def ListDir(user, token, path=''):
 		print item['name'], '[', item['type'], ']'
 
 ## Uploads a file to the main directory only right now
-def UploadFile(user, token, file):
-	global retJSON
+def UploadFile(user, token, file, retJSON=False):
 	with open(file, 'rb') as myfile:
 		gear = myfile.read()
 	payload = {'fileToUpload' : (file, gear)}
@@ -120,8 +111,7 @@ Had so much trouble with uploading files that I'm holding on to this UploadFile2
 the original one that worked.
 """
 
-def UploadFile2(user, token):
-	global retJSON
+def UploadFile2(user, token, retJSON=False):
 	payload = {'fileToUpload' : 'Hello, World!', 'fileType' : 'FASTA-0'	}
 	req = requests.post('https://foundation.iplantcollaborative.org/io-v1/io/' + user, auth=(user, token), files=payload)
 	print 'Connected to', req.url
@@ -131,8 +121,7 @@ def UploadFile2(user, token):
 
 ## Deletes a file or folder-- Be careful, you can accidently delete your
 ## entire user if you leave path blank!! It would delete '/username'
-def Delete(user, token, path='test.txt'):
-	global retJSON
+def Delete(user, token, path='test.txt', retJSON=False):
 	req = requests.delete(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -148,8 +137,7 @@ def Delete(user, token, path='test.txt'):
 ## myfile = DownloadFile(usr,psw,'myfile_on_DE.txt')
 ## mydata = Data(myfile)
 ## mydata.WriteCSV('file_in_working_directory.txt') 
-def DownloadFile(user, token, path='test.txt'):
-	global retJSON
+def DownloadFile(user, token, path='test.txt', retJSON=False):
 	req = requests.get(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -157,8 +145,7 @@ def DownloadFile(user, token, path='test.txt'):
 	return req.text
 
 ## Rename files or folders in your DE directories
-def Rename(user, token, path='test.txt', new_name='new_name.txt'):
-	global retJSON
+def Rename(user, token, path='test.txt', new_name='new_name.txt', retJSON=False):
 	payload = {'action' : 'rename', 'newName' : new_name}
 	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token), data=payload)
 	print 'Connected to', req.url
@@ -170,8 +157,7 @@ def Rename(user, token, path='test.txt', new_name='new_name.txt'):
 		print req.json()['message']
 
 ## Make new directories in your DE directories
-def MakeDir(user, token, new_folder='new_folder', path=''):
-	global retJSON
+def MakeDir(user, token, new_folder='new_folder', path='', retJSON=False):
 	payload = {'action' : 'mkdir', 'dirName' : new_folder}
 	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token), data=payload)
 	print 'Connected to', req.url
@@ -186,8 +172,7 @@ def MakeDir(user, token, new_folder='new_folder', path=''):
 MoveFile currently doesn't work.
 """
 
-def MoveFile(user, token, path, new_path):
-	global retJSON
+def MoveFile(user, token, path, new_path, retJSON=False):
 	payload = {'action' : 'move', 'newPath' : '/' + user + '/' + new_path}
 	req = requests.put(APIHost + '/io-v1/io/' + user + '/' + path, auth=(user, token), data=payload)
 	print 'Connected to', req.url
@@ -200,8 +185,7 @@ def MoveFile(user, token, path, new_path):
 		print req.json()['message']
 
 ## List all available apps on the API, plus their corresponding list number
-def ListApps(user, token, print_connect=True):
-	global retJSON
+def ListApps(user, token, print_connect=True, retJSON=False):
 	item_num = 0
 	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
 	if print_connect == True:
@@ -213,8 +197,7 @@ def ListApps(user, token, print_connect=True):
 		item_num += 1
 
 ## View all apps shared with you
-def ListSharedApps(user, token):
-	global retJSON
+def ListSharedApps(user, token, retJSON=False):
 	req = requests.get(APIHost + '/apps-v1/apps/share/list', auth=(user, token))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -224,8 +207,7 @@ def ListSharedApps(user, token):
 
 ## Run a PLINK job
 def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, arguments='--assoc --adjust --allow-no-sex --out thisjob',
-			softwarename='plink-1.07u1', requestedtime='24:00:00'):
-	global retJSON
+			softwarename='plink-1.07u1', requestedtime='24:00:00', retJSON=False):
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
 		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 
 		'arguments' : arguments, 'archive' : 'True'}
@@ -241,8 +223,7 @@ def PLINK(user, token, jobname, inputPED, inputMAP, archivepath, arguments='--as
 
 ## Run a FaSTLMM job
 def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, arguments='--assoc --adjust -out thisjob', 
-			softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00'):
-	global retJSON
+			softwarename='FaST-LMM-1.09u1', requestedtime='24:00:00', retJSON=False):
 	payload = {'jobName' : jobname, 'softwareName' : softwarename, 'archivePath' : archivepath, 
 		'requestedTime' : requestedtime, 'inputPED' : inputPED, 'inputMAP' : inputMAP, 'archive' : 'True',
 		'arguments' : arguments}
@@ -257,8 +238,7 @@ def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, arguments='--a
 		print req.json()['message']
 
 ## Check the status of a job, string or integers works
-def CheckJobStatus(user, token, jobid):
-	global retJSON
+def CheckJobStatus(user, token, jobid, retJSON=False):
 	req = requests.get(APIHost + '/apps-v1/job/' + str(jobid), auth=(user, psw))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -269,8 +249,7 @@ def CheckJobStatus(user, token, jobid):
 		print 'MESSAGE:', req.json()['result']['message']
 
 ## Shorter named function of the above
-def Status(user, token, jobid):
-	global retJSON
+def Status(user, token, jobid, retJSON=False):
 	req = requests.get(APIHost + '/apps-v1/job/' + str(jobid), auth=(user, psw))
 	print 'Connected to', req.url
 	if retJSON == True:
@@ -282,8 +261,7 @@ def Status(user, token, jobid):
 
 ## Using the corresponding list number, view the required and not-required
 ## inputs for any given app
-def ListAppInputs(user, token, appnum):
-	global retJSON
+def ListAppInputs(user, token, appnum, retJSON=False):
 	req = requests.get(APIHost + '/apps-v1/apps/list', auth=(user, token))
 	print 'Connected to', req.url
 	inputs = req.json()['result'][appnum]['inputs']
