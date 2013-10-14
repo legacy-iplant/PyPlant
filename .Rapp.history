@@ -1,0 +1,55 @@
+require(rPlant)
+setwd('/users/dustin/documents/pyplant')
+source('roc.r')
+plot(x=holder[,2],y=holder[,1],type='l',xlab='(1 - TNR) or FPR',ylab='TPR',main='ROC Curve for Simulation10-Simmons')
+holder
+myseq <- seq(0,0.1,0.0001)#
+holder <- matrix(nrow=length(myseq),ncol=2)#
+#
+for (i in 1:length(myseq)) {#
+  #print(i)#
+  sim10$test <- ifelse(sim10$P < myseq[i],'Test Pos','Test Neg')#
+  mytab <- table(sim10$test,sim10$truth)#
+  holder[i,1] <- TPR(mytab)#
+  holder[i,2] <- 1-TNR(mytab)#
+}
+holder
+plot(holder[,2],holder[,1])
+plot(holder[,2],holder[,1],'l')
+myseq <- seq(0,1,0.00001)#
+holder <- matrix(nrow=length(myseq),ncol=2)#
+#
+for (i in 1:length(myseq)) {#
+  #print(i)#
+  sim10$test <- ifelse(sim10$P < myseq[i],'Test Pos','Test Neg')#
+  mytab <- table(sim10$test,sim10$truth)#
+  holder[i,1] <- TPR(mytab)#
+  holder[i,2] <- 1-TNR(mytab)#
+}#
+#
+plot(x=holder[,2],y=holder[,1],type='l',xlab='(1 - TNR) or FPR',ylab='TPR',main='ROC Curve for Simulation10-Simmons')
+rocobj <- plot.roc(sim10$truth, sim10$P, main='Simmons-Simulation10 ROC',percent=T,print.auc=T)
+library(pROC)
+rocobj <- plot.roc(sim10$truth, sim10$P, main='Simmons-Simulation10 ROC',percent=T,print.auc=T)
+plot(ci(rocobj,of='thresholds',thresholds='best'))
+rocobj <- plot.roc(sim10$truth, sim10$P, main='Simmons-Simulation10 ROC',percent=T,print.auc=T)
+plot(ci(rocobj,of='thresholds',thresholds='best'))
+rocobj <- plot.roc(sim10$truth, sim10$P, main='Simmons-Simulation10 ROC',percent=T,print.auc=T)
+ciobj <- ci.se(rocobj,specificities=seq(0,100,5))
+ciobj <- ci.se(rocobj,specificities=seq(0,100,5))
+ciobj
+rocobj <- plot.roc(sim10$truth, sim10$P, main='Simmons-Simulation10 ROC',percent=T,print.auc=T, of='thresholds',thresholds='best',print.thre='best')
+rocobj <- plot.roc(sim10$truth, sim10$P, main='Simmons-Simulation10 ROC',percent=T,print.auc=T, of='thresholds',thresholds='best',print.thre='best')
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',of='thresholds')
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',of='thresholds',thresholds='best')
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',of='thresholds',thresholds='best',print.thres='best')
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',,print.thres='best')
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best')
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best',add=smooth)
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best',ci=T)
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best',percent=T)
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best',percent=T)
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best',percent=T,print.auc=T)
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best',percent=T,print.auc=T)
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best',percent=T,print.auc=T,col='#1c61b6')
+plot.roc(sim10$truth,sim10$P,main='Simmons-Simulation10',print.thres='best',percent=T,print.auc=T,col='#1c61b6')\

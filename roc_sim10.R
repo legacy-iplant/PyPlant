@@ -29,7 +29,7 @@ TNR <- function(tab) {
   }
 }
 
-myseq <- seq(0,1,0.001)
+myseq <- seq(0,1,0.00001)
 holder <- matrix(nrow=length(myseq),ncol=2)
 
 for (i in 1:length(myseq)) {
