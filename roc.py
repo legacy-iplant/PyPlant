@@ -1,14 +1,14 @@
 ## Just a script for messing with roc in matplotlib
 
-from pyplant import *
+from pyplant27 import *
 import numpy as np 
 import matplotlib.pyplot as mat 
 
 usr = 'dalanders'
 psw = 'Shadow@3876'
 
-token = ListTokens(usr,psw,True)[1]
-myfile = DownloadFile(usr,token,'analyses/plink-sim10-out/simulation1_--assoc.qassoc.adjusted')
+#token = ListTokens(usr,psw,True)[1]
+#myfile = DownloadFile(usr,token,'analyses/plink-sim10-out/simulation1_--assoc.qassoc.adjusted')
 sim10 = Data(myfile)
 sim10.ChangeToFloat( tuple(range(2,10)) )
 sim10.ChangeToInt(0)
@@ -16,7 +16,8 @@ sim10.ChangeToInt(0)
 known_truths = ['csu303', 'gpm551', 'AY112215', 'IDP2516', 'umc1803', 'umc1174', 'gpm249b', 'php15024']
 SNP = sim10.data['SNP']
 UNADJ = sim10.data['UNADJ']
-BONF = sim10.data['BONF']
+BONF = sim10.data['UNADJ']
+nrow = 3234
 
 
 def seq(start, end, by):
@@ -76,8 +77,8 @@ for threshold in seq(0,1,0.001):
 	tup = roc(threshold, UNADJ)
 	plot_list_x.append(tup[0])
 	plot_list_y.append(tup[1])
-mat.plot(plot_list_x,plot_list_y)
-mat.plot([0,1],[0,1])
+#mat.plot(plot_list_x,plot_list_y)
+#mat.plot([0,1],[0,1])
 mat.show()
 
 """plot_list_x = []

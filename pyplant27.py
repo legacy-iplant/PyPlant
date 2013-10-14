@@ -235,7 +235,7 @@ def FaSTLMM(usr, token, jobname, inputPED, inputMAP, archivepath, arguments='--a
 		print 'Job', req.json()['result']['id'], 'submitted.'
 		return req.json()['result']['id']
 	else:
-		print req.json()['message']
+		print req.json()['message'] 
 
 ## Check the status of a job, string or integers works
 def CheckJobStatus(user, token, jobid, retJSON=False):
@@ -250,7 +250,7 @@ def CheckJobStatus(user, token, jobid, retJSON=False):
 
 ## Shorter named function of the above
 def Status(user, token, jobid, retJSON=False):
-	req = requests.get(APIHost + '/apps-v1/job/' + str(jobid), auth=(user, psw))
+	req = requests.get(APIHost + '/apps-v1/job/' + str(jobid), auth=(user, token))
 	print 'Connected to', req.url
 	if retJSON == True:
 		return req.json()
