@@ -404,4 +404,3 @@ class Data:
 			for row in range(self.nrow):
 				if isinstance(row, int):
 					writer.writerow(self.data[row])
-
