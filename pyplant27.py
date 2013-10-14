@@ -2,13 +2,9 @@ import requests, time, csv
 
 APIHost = 'https://foundation.iplantcollaborative.org'
 
-"""
-If retJSON is True, then all functions will return only JSON objects.
-This is done to allow developers to use the machine-reading functions,
-instead of the human-reading functions.
-
-Put simply, mark retJSON as True if you want the functions to be 
-machine readable, and false if you want them to be human readbale.
+"""PyPlant 27
+By Dustin A. Landers
+GNU GPL-3
 """
 
 ## This function writes an object as a file exactly how it is
@@ -311,7 +307,7 @@ class Data:
 			num += 1
 		return row
 
-	## This fucntion searches for what should be a row, sends it
+	## This func'tion searches for what should be a row, sends it
 	## to Rowize and then brings it back and logs it in the data
 	## dictionary
 	def Dataize(self, test):
