@@ -9,3 +9,6 @@ sim10$truth <- ifelse(sim10$SNP %in% known_truths_sim10, 'Pos', 'Neg')
 
 rocobj1 <- plot.roc(sim10$truth,sim10$P,main="PLINK ROC Curve Using Simmon's Simulation 10 Dataset",
 	print.thres='best',percent=T,print.auc=T,col='#1c61b6')
+lines(smooth(rocobj1), col='#008600', print.auc=T)
+legend("bottomright", legend = c("Empirical", "Binormal smoothing"), 
+	col = c("#1c61b6", "#008600"),lwd = 2)
