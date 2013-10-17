@@ -1,0 +1,9 @@
+DAL 16 Oct: I also had this other idea. I'm going to run it by Kurt also. It will be sort of a "measure of sensitivity to effect size." It goes like this:
+
+1) Take 10 simulation data sets. The first data set has 10 effects of 1. The second data set has 10 effects of 2, and so on until you have a simulation with 10 effects of 10.
+2) Then you run each of these through your app. Say PLINK, just to keep things simple for the example. You perform an ROC analysis with AUC calculation for each one and store this information.
+3) Then you perform a simple linear regression, modeling like this:
+                                  AUC_i = Beta_0 + Beta_1*(EffectSize)
+    This, of course, assumes that AUC increases linearly with EffectSize, which it may or may not.
+         If so, then Beta_1 is a measure of "sensitivity to effect size" for that tool.
+4) 

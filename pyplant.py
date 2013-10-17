@@ -1,4 +1,4 @@
-import requests, time, csv
+import requests, time, csv, getpass
 
 APIHost = 'https://foundation.iplantcollaborative.org'
 
@@ -6,6 +6,10 @@ APIHost = 'https://foundation.iplantcollaborative.org'
 By Dustin A. Landers
 GNU GPL-3
 """
+
+def PSW():
+	psw = getpass.getpass()
+	return psw
 
 ## This function writes an object as a file exactly how it is
 def WriteFile(obj, file):
@@ -87,7 +91,7 @@ def ListDir(user, token, path='', retJSON=False):
 		return req.json()
 	print 'Directory \n'
 	for item in req.json()['result']:
-		print item['name']
+		print item['name'], '[', item['type'], ']'
 
 def ListSharedDir(user, token, path='', shared_user='', retJSON=False):
 	req = requests.get(APIHost + '/io-v1/io/list/' + shared_user + '/' + path, auth=(user, token))

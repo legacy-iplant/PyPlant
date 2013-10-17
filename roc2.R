@@ -46,17 +46,3 @@ abline(a=0,b=1,lty=4)
 holderq <- qnorm(holder)
 holderq <- na.omit(holderq)
 
-
-## 1's are approximated as z-score 2.25 instead of infinite for smoothing, -Inf to -2.25
-for (i in 1:nrow(holderq)) {
-  if (holderq[i,2]==Inf) {
-    holderq[i,2] <- 3
-  }
-  if (holderq[i,2]==-Inf) {
-    holderq[i,2] <- -3
-  }
-}
-fit <- lm(holderq[,2]~holderq[,1])
-x <- qnorm(seq(0,1,1/(nrow(holderq)-1)))
-y <- predict(fit, data.frame(x))
-lines(pnorm(x),pnorm(y),col='blue',lwd=4)
