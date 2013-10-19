@@ -8,7 +8,6 @@ layer. At this point, there are no plans to develop a full scale environment, bu
 provide a set of functions and classes that can be deployed in any user-designed script or program.In other words, the goal is to provide some tools to build your own tools, instead of a full-scale environment for interacting with iPlant. 
 
 ## Project Setup
-
 If you wish to contribute to the master function and class set, please contact me.
 
 Using Python 2.7.5, there is only one dependency which must be installed. It is the
@@ -16,14 +15,15 @@ requests library (docs.python-requests.org/‎). To install it, unzip the tarbal
 to the folder containing those files, and type: "python setup.py install" in your
 terminal command-line.
 
-## Examples of common tasks
-
+### Examples of common tasks
+'''
 usr = 'dalanders'
-psw = 'mypass'
-
-Authenticate a token:
+psw = PSW()
+'''
+### Authenticate a token:
+'''
 token = GetToken(usr,psw)
-
+'''
 See all my tokens and their expirations:
 ListTokens(usr,token)
 
