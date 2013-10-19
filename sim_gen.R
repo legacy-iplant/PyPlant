@@ -1,11 +1,11 @@
-dat<- read.table('Ann_largemarker.csv',sep=',',header=TRUE)
+dat<- read.table('/Users/dustin/Desktop/IBM94markerset.csv',sep=',',header=TRUE)
 col.names<-dat[,1]
 new.dat<-dat[,6:length(dat[1,])]
 markers<-t(new.dat)
 colnames(markers)<-col.names
 
 QTL.num<-8
-QTL.effects<-c(2,2,3,3,2,3,7,7)
+QTL.effects<-c(1,1,1,1,1,1,1,1)
 mu<-35
 
 

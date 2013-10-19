@@ -391,3 +391,19 @@ class Data:
 			for row in range(self.nrow):
 				if isinstance(row, int):
 					writer.writerow(self.data[row])
+
+"""
+Below here is specifically known-truth stuff
+"""
+from subprocess import call
+
+def AUC(simulation, truth_file):
+	string_to_send = 'Rscript aucgen.r --file ' + simulation + ' --truth ' + truth_file
+	print string_to_send
+	call(string_to_send)
+	with open('auc.txt','rb') as aucfile:
+		auc = aucfile.read()
+	print auc
+	return(auc)
+
+
