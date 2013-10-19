@@ -54,8 +54,9 @@ ListDir(usr,token,'analyses')
 ```
 Delete all my tokens:
 ```python
+token_list = ListTokens(usr,token,return_list=True)
 for item in range(len(token_list)):
-	DeleteToken(usr,token[item])
+	DeleteToken(usr,token_list[item])
 ```	
 Upload a file to your main home directory on iPlant:
 ```python
