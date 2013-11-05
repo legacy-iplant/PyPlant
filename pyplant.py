@@ -13,7 +13,7 @@ def PSW():
 
 ## This function writes an object as a file exactly how it is
 def WriteFile(obj, file):
-	with open(file, 'r+') as myopenfile:
+	with open(file, 'wb') as myopenfile:
 		myopenfile.write(obj)
 
 ## This function retrieves a token
